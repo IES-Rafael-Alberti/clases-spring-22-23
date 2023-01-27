@@ -1,8 +1,6 @@
 package es.iesrafaelalberti.clasesspring2223.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
@@ -20,12 +18,17 @@ public class Prisoner {
     @NotNull
     private Integer yearsLeft;
 
+    @ManyToOne
+    @JoinColumn()
+    private Cell cell;
+
     // default constructor
     public Prisoner() { }
 
-    public Prisoner(String name, Integer age, Integer yearsLeft) {
+    public Prisoner(String name, Integer age, @NotNull Integer yearsLeft, Cell cell) {
         this.name = name;
         this.age = age;
         this.yearsLeft = yearsLeft;
+        this.cell = cell;
     }
 }

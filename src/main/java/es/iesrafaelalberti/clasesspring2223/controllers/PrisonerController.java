@@ -41,7 +41,7 @@ public class PrisonerController {
     public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody Prisoner prisoner) {
         Optional<Prisoner> oldPrisoner = prisonerRepository.findById(id);
         if(oldPrisoner.isPresent()) {
-            //prisoner.setId(id);
+            prisoner.setId(id);
             prisonerRepository.save(prisoner);
             return new ResponseEntity<>(prisoner, HttpStatus.OK);
         }
