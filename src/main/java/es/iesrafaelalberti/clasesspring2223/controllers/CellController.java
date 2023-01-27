@@ -33,7 +33,7 @@ public class CellController {
     @DeleteMapping("/cells/{id}/")
     public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
         Optional<Cell> cell = cellRepository.findById(id);
-        if(cell.isPresent()) cellRepository.delete(cell.get());
+        cell.ifPresent(value -> cellRepository.delete(value));
         return new ResponseEntity<>(cell.isPresent(), HttpStatus.OK);
     }
 

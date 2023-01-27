@@ -33,7 +33,7 @@ public class PrisonerController {
     @DeleteMapping("/prisoners/{id}/")
     public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
         Optional<Prisoner> prisoner = prisonerRepository.findById(id);
-        if(prisoner.isPresent()) prisonerRepository.delete(prisoner.get());
+        prisoner.ifPresent(value -> prisonerRepository.delete(value));
         return new ResponseEntity<>(prisoner.isPresent(), HttpStatus.OK);
     }
 
