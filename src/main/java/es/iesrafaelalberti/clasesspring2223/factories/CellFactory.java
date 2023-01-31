@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import es.iesrafaelalberti.clasesspring2223.models.Cell;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -18,7 +19,17 @@ public class CellFactory {
         return IntStream.range(0, number)
                 .mapToObj(x -> new Cell(esFaker.number().numberBetween(100, 399),
                                         esFaker.number().randomDouble(1, 3, 30),
-                                        esFaker.number().numberBetween(1, 12)))
+                                        esFaker.number().numberBetween(3, 12)))
                 .collect(Collectors.toList());
+    }
+
+    public List<Cell> getOldSchool(int number) {
+        List<Cell> cells = new ArrayList<>();
+        for(int i=0; i<number; i++)
+            cells.add(new Cell(esFaker.number().numberBetween(100, 399),
+                               esFaker.number().randomDouble(1, 3, 30),
+                               esFaker.number().numberBetween(1, 12)));
+
+        return cells;
     }
 }

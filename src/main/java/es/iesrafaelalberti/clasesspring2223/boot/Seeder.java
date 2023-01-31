@@ -25,8 +25,8 @@ public class Seeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        List<Cell> cells = cellFactory.get(3);
+        List<Cell> cells = cellFactory.getOldSchool(18);
         cellRepository.saveAll(cells);
-        prisonerRepository.saveAll(prisonerFactory.get(7, cells));
+        prisonerRepository.saveAll(prisonerFactory.getOldSchool(7, cells));
     }
 }
