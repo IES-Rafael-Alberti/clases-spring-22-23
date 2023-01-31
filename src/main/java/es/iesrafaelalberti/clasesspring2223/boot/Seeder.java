@@ -1,12 +1,15 @@
 package es.iesrafaelalberti.clasesspring2223.boot;
 
+import es.iesrafaelalberti.clasesspring2223.factories.CellFactory;
+import es.iesrafaelalberti.clasesspring2223.factories.PrisonerFactory;
 import es.iesrafaelalberti.clasesspring2223.models.Cell;
-import es.iesrafaelalberti.clasesspring2223.models.Prisoner;
 import es.iesrafaelalberti.clasesspring2223.repositories.CellRepository;
 import es.iesrafaelalberti.clasesspring2223.repositories.PrisonerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class Seeder implements CommandLineRunner {
@@ -15,12 +18,15 @@ public class Seeder implements CommandLineRunner {
     @Autowired
     CellRepository cellRepository;
 
+    @Autowired
+    PrisonerFactory prisonerFactory;
+    @Autowired
+    CellFactory cellFactory;
+
     @Override
     public void run(String... args) {
-        Cell cell1 = cellRepository.save(new Cell(3, 30.5f, 25));
-        Cell cell2 = cellRepository.save(new Cell(666, 0.5f, 1));
-        prisonerRepository.save(new Prisoner("Daniel", 26, 10, cell1));
-        prisonerRepository.save(new Prisoner("Jairo", 20, 3, cell1));
-        prisonerRepository.save(new Prisoner("Beni", 45, 5, cell2));
+        List<Cell> cells = cellFactory.get(3);
+        cellRepository.saveAll(cells);
+        prisonerRepository.saveAll(prisonerFactory.get(7, cells));
     }
 }

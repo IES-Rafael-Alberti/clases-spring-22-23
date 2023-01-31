@@ -15,7 +15,7 @@ public class Cell {
     private Long id;
 
     private Integer number;
-    private Float size;
+    private Double size;
     private Integer capacity;
 
     @JsonBackReference
@@ -24,7 +24,7 @@ public class Cell {
 
     public Cell() {}
 
-    public Cell(Integer number, Float size, Integer capacity) {
+    public Cell(Integer number, Double size, Integer capacity) {
         this.number = number;
         this.size = size;
         this.capacity = capacity;
