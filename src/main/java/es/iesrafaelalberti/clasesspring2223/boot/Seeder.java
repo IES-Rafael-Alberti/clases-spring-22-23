@@ -3,6 +3,7 @@ package es.iesrafaelalberti.clasesspring2223.boot;
 import es.iesrafaelalberti.clasesspring2223.factories.CellFactory;
 import es.iesrafaelalberti.clasesspring2223.factories.PrisonerFactory;
 import es.iesrafaelalberti.clasesspring2223.models.Cell;
+import es.iesrafaelalberti.clasesspring2223.models.Prisoner;
 import es.iesrafaelalberti.clasesspring2223.repositories.CellRepository;
 import es.iesrafaelalberti.clasesspring2223.repositories.PrisonerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class Seeder implements CommandLineRunner {
     public void run(String... args) {
         List<Cell> cells = cellFactory.getOldSchool(18);
         cellRepository.saveAll(cells);
+        prisonerRepository.save(new Prisoner("bob", 19, 23, cells.get(0)));
         prisonerRepository.saveAll(prisonerFactory.getOldSchool(7, cells));
     }
 }
