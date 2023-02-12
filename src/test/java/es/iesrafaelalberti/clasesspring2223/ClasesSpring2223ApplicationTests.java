@@ -75,7 +75,7 @@ class ClasesSpring2223ApplicationTests {
         String testPrisoner = "{\"name\": \"lewis\", \"age\": 24, \"yearsLeft\": 6}";
         // modify attributes
         // method put on url /prisoners/1/
-        mvc.perform(put("/prisoners/1/")
+        mvc.perform(put("/prisoners/2/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(testPrisoner))
                         .andExpect(status().isOk()) // test result
