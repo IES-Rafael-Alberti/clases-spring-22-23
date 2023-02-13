@@ -3,7 +3,6 @@ package es.iesrafaelalberti.clasesspring2223.controllers;
 import es.iesrafaelalberti.clasesspring2223.models.Image;
 import es.iesrafaelalberti.clasesspring2223.services.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,13 +18,12 @@ public class ImageController {
     public String addPhoto(@RequestParam("title") String title,
                            @RequestParam("image") MultipartFile image)
             throws IOException {
-        String id = imageService.addImage(title, image);
-        return "true";
+        return imageService.addImage(title, image);
     }
 
     @GetMapping("/images/{id}")
     public String getPhoto(@PathVariable String id) {
         Image image = imageService.getImage(id);
-        return Base64.getEncoder().encodeToString(image.getImage().getData());
+        return "<img src=\"data:image/jpeg;base64, " + Base64.getEncoder().encodeToString(image.getImage().getData()) + "\">";
     }
 }
