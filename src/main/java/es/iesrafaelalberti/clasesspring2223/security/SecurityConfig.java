@@ -15,6 +15,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -57,15 +60,12 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http
 				.csrf(AbstractHttpConfigurer::disable)
-				.authorizeHttpRequests(auth -> auth.requestMatchers("/token**").authenticated())
 				.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
 				.exceptionHandling(
 						(ex) -> ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
 								.accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
-
-				.httpBasic(withDefaults())
 				.build();
 	}
 
@@ -73,22 +73,16 @@ public class SecurityConfig {
 	 * This was added via PR (thanks to @ch4mpy)
 	 * This will allow the /token endpoint to use basic auth and everything else uses the SFC above
 	 */
-/*	@Order(Ordered.HIGHEST_PRECEDENCE)
+	@Order(Ordered.HIGHEST_PRECEDENCE)
 	@Bean
 	public SecurityFilterChain tokenSecurityFilterChain(HttpSecurity http) throws Exception {
 		return http
-				.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-				.requestMatcher(new AntPathRequestMatcher("/token"))
-				.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+				.authorizeHttpRequests(auth -> auth.requestMatchers("/token**").authenticated())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.csrf(AbstractHttpConfigurer::disable)
-				.exceptionHandling(ex -> {
-					ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint());
-					ex.accessDeniedHandler(new BearerTokenAccessDeniedHandler());
-				})
 				.httpBasic(withDefaults())
 				.build();
-	}*/
+	}
 
 	@Bean
 	JwtDecoder jwtDecoder() {
@@ -111,5 +105,10 @@ public class SecurityConfig {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
+	}
+
+	@Bean
+	public static PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 }
