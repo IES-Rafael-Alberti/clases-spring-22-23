@@ -48,10 +48,10 @@ public class SecurityConfig {
 		this.jwtConfigProperties = jwtConfigProperties;
 	}
 
-	@Bean
-	public InMemoryUserDetailsManager users() {
-		return new InMemoryUserDetailsManager(User.withUsername("javier").password("{noop}pestillo").authorities("read").build());
-	}
+//	@Bean
+//	public InMemoryUserDetailsManager users() {
+//		return new InMemoryUserDetailsManager(User.withUsername("javier").password("{noop}pestillo").authorities("read").build());
+//	}
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
