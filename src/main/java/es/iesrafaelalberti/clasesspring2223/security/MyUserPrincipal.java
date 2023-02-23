@@ -2,10 +2,8 @@ package es.iesrafaelalberti.clasesspring2223.security;
 
 import es.iesrafaelalberti.clasesspring2223.models.User;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 public class MyUserPrincipal implements UserDetails {
@@ -17,10 +15,7 @@ public class MyUserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        ArrayList<GrantedAuthority> resultado = new ArrayList<>();
-        resultado.add(new SimpleGrantedAuthority("USER"));
-
-        return resultado;
+        return null;
     }
 
     @Override
@@ -30,7 +25,7 @@ public class MyUserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return getUsername();
     }
 
     @Override

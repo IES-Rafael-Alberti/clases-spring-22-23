@@ -11,6 +11,7 @@ import es.iesrafaelalberti.clasesspring2223.repositories.PrisonerRepository;
 import es.iesrafaelalberti.clasesspring2223.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
