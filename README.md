@@ -32,3 +32,6 @@ Para ajustarnos a la terminología conocida, llamaremos a esta parte de nuestra 
 
 
 [Dependencias Javar Faker](https://mvnrepository.com/artifact/com.github.javafaker/javafaker/1.0.2)
+
+Vuestro nuevo Dios:  
+[Dan Vega, ruega por nosotros](https://www.danvega.dev/blog/2022/09/06/spring-security-jwt/)
