@@ -1,5 +1,7 @@
 package es.iesrafaelalberti.clasesspring2223.models;
 
+import es.iesrafaelalberti.clasesspring2223.dto.PrisonerCreateDTO;
+import es.iesrafaelalberti.clasesspring2223.dto.PrisonerDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,5 +32,11 @@ public class Prisoner {
         this.age = age;
         this.yearsLeft = yearsLeft;
         this.cell = cell;
+    }
+
+    public Prisoner(PrisonerCreateDTO newPrisoner) {
+        this.name = newPrisoner.getName();
+        this.age = newPrisoner.getAge();
+        this.yearsLeft = newPrisoner.getYearsLeft();
     }
 }
