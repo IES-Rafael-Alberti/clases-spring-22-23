@@ -4,12 +4,14 @@ import es.iesrafaelalberti.clasesspring2223.dto.PrisonerCreateDTO;
 import es.iesrafaelalberti.clasesspring2223.dto.PrisonerDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
 
 @Entity @Getter @Setter
+@NoArgsConstructor
 public class Prisoner {
     @Id
     @GeneratedValue
@@ -24,8 +26,6 @@ public class Prisoner {
     @JoinColumn()
     private Cell cell;
 
-    // default constructor
-    public Prisoner() { }
 
     public Prisoner(String name, Integer age, @NotNull Integer yearsLeft, Cell cell) {
         this.name = name;

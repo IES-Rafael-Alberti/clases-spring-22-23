@@ -15,21 +15,22 @@ import java.util.stream.IntStream;
 public class CellFactory {
     Faker esFaker = new Faker(new Locale("es-ES"));
 
+    public Cell getCell() {
+        return new Cell(esFaker.number().numberBetween(100, 399),
+                esFaker.number().randomDouble(1, 3, 30),
+                esFaker.number().numberBetween(3, 12));
+    }
+
     public List<Cell> get(int number) {
         return IntStream.range(0, number)
-                .mapToObj(x -> new Cell(esFaker.number().numberBetween(100, 399),
-                                        esFaker.number().randomDouble(1, 3, 30),
-                                        esFaker.number().numberBetween(3, 12)))
+                .mapToObj(x -> this.getCell())
                 .collect(Collectors.toList());
     }
 
     public List<Cell> getOldSchool(int number) {
         List<Cell> cells = new ArrayList<>();
         for(int i=0; i<number; i++)
-            cells.add(new Cell(esFaker.number().numberBetween(100, 399),
-                               esFaker.number().randomDouble(1, 3, 30),
-                               esFaker.number().numberBetween(1, 12)));
-
+            cells.add(this.getCell());
         return cells;
     }
 }

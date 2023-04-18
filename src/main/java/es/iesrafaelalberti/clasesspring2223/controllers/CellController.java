@@ -1,5 +1,6 @@
 package es.iesrafaelalberti.clasesspring2223.controllers;
 
+import es.iesrafaelalberti.clasesspring2223.dto.CellDTO;
 import es.iesrafaelalberti.clasesspring2223.models.Cell;
 import es.iesrafaelalberti.clasesspring2223.repositories.CellRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -16,7 +19,11 @@ public class CellController {
 
     @GetMapping("/cells/")
     public ResponseEntity<Object> index() {
-        return new ResponseEntity<>(cellRepository.findAll(), HttpStatus.OK);
+        List<CellDTO> resultado = new ArrayList<>();
+        for (Cell cell:cellRepository.findAll()) {
+            resultado.add(new CellDTO(cell));
+        }
+        return new ResponseEntity<>(resultado, HttpStatus.OK);
     }
 
     @GetMapping("/cells/{id}/")
