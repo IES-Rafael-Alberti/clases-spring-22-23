@@ -34,6 +34,7 @@ import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -44,11 +45,6 @@ public class SecurityConfig {
 	public SecurityConfig(RsaKeyProperties jwtConfigProperties) {
 		this.jwtConfigProperties = jwtConfigProperties;
 	}
-
-//	@Bean
-//	public InMemoryUserDetailsManager users() {
-//		return new InMemoryUserDetailsManager(User.withUsername("javier").password("{noop}pestillo").authorities("read").build());
-//	}
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -63,10 +59,10 @@ public class SecurityConfig {
 				.build();
 	}
 
-	/*
-	 * This was added via PR (thanks to @ch4mpy)
-	 * This will allow the /token endpoint to use basic auth and everything else uses the SFC above
-	 */
+	//
+	//	This was added via PR (thanks to @ch4mpy)
+	//	This will allow the /token endpoint to use basic auth and everything else uses the SFC above
+	//
 	@Order(Ordered.HIGHEST_PRECEDENCE)
 	@Bean
 	public SecurityFilterChain tokenSecurityFilterChain(HttpSecurity http) throws Exception {

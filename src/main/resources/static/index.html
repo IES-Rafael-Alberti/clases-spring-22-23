@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prueba HTML estático</title>
+</head>
+<body>
+<div id="prisoners"></div>
+<script>
+    var prueba;
+    fetch('http://localhost:8080/prisoners/1/')
+        .then(response => response.json())
+        .then(data => {
+                        document.getElementById("prisoners").textContent=JSON.stringify(data);
+                        prueba = data;
+                        });
+    console.log(prueba);
+
+</script>
+</body>
+</html>

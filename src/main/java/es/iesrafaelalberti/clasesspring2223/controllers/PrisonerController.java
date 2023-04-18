@@ -8,9 +8,14 @@ import es.iesrafaelalberti.clasesspring2223.services.PrisonerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RestController
 public class PrisonerController {
@@ -23,11 +28,13 @@ public class PrisonerController {
     @GetMapping("/prisoners/")
     public ResponseEntity<Object> index() {
         return new ResponseEntity<>(
-                prisonerRepository.findAll(),
+                StreamSupport.stream(prisonerRepository.findAll().spliterator(), false)
+                        .map(prisoner -> new PrisonerDTO(prisoner)),
                 HttpStatus.OK);
     }
 
     @GetMapping("/prisoners/{id}/")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<Object> show(@PathVariable("id") Long id) {
         return new ResponseEntity<>(
                 new PrisonerDTO(prisonerRepository.findById(id).get()),
