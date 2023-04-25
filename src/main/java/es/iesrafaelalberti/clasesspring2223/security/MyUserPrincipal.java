@@ -18,8 +18,8 @@ public class MyUserPrincipal implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         ArrayList<GrantedAuthority> resultado = new ArrayList<>();
-        resultado.add(new SimpleGrantedAuthority("USER"));
-
+        if(user.isAdmin())
+            resultado.add(new SimpleGrantedAuthority("ADMIN"));
         return resultado;
     }
 

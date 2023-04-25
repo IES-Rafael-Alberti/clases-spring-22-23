@@ -1,6 +1,7 @@
 package es.iesrafaelalberti.clasesspring2223.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import es.iesrafaelalberti.clasesspring2223.dto.CellCreateDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,5 +29,11 @@ public class Cell {
         this.number = number;
         this.size = size;
         this.capacity = capacity;
+    }
+
+    public Cell(CellCreateDTO cellCreateDTO) {
+        this.number = cellCreateDTO.getNumber();
+        this.capacity = cellCreateDTO.getCapacity();
+        this.size = cellCreateDTO.getSize();
     }
 }

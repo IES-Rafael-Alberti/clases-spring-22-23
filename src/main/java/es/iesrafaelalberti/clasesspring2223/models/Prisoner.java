@@ -12,6 +12,10 @@ import java.util.Calendar;
 
 @Entity @Getter @Setter
 @NoArgsConstructor
+@Table(indexes = {
+        @Index(name = "name", columnList = "name"),
+        @Index(name = "age", columnList = "age")
+})
 public class Prisoner {
     @Id
     @GeneratedValue
@@ -22,10 +26,9 @@ public class Prisoner {
     @NotNull
     private Integer yearsLeft;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn()
     private Cell cell;
-
 
     public Prisoner(String name, Integer age, @NotNull Integer yearsLeft, Cell cell) {
         this.name = name;

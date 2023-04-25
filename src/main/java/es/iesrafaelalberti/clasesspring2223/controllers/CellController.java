@@ -1,11 +1,16 @@
 package es.iesrafaelalberti.clasesspring2223.controllers;
 
+import es.iesrafaelalberti.clasesspring2223.dto.CellCreateDTO;
 import es.iesrafaelalberti.clasesspring2223.dto.CellDTO;
 import es.iesrafaelalberti.clasesspring2223.models.Cell;
 import es.iesrafaelalberti.clasesspring2223.repositories.CellRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,16 +33,18 @@ public class CellController {
 
     @GetMapping("/cells/{id}/")
     public ResponseEntity<Object> show(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(cellRepository.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(new CellDTO(cellRepository.findById(id).get()), HttpStatus.OK);
     }
 
     @PostMapping("/cells/create")
-    public ResponseEntity<Object> create(@RequestBody Cell cell) {
-        cellRepository.save(cell);
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public ResponseEntity<Object> create(@RequestBody CellCreateDTO cellCreateDTO) {
+        Cell cell = cellRepository.save(new Cell(cellCreateDTO));
         return new ResponseEntity<>(cell, HttpStatus.OK);
     }
 
     @DeleteMapping("/cells/{id}/")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
         Optional<Cell> cell = cellRepository.findById(id);
         cell.ifPresent(value -> cellRepository.delete(value));
@@ -45,6 +52,7 @@ public class CellController {
     }
 
     @PutMapping("/cells/{id}/")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody Cell cell) {
         Optional<Cell> oldCell = cellRepository.findById(id);
         if(oldCell.isPresent()) {

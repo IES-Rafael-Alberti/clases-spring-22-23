@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -34,7 +35,6 @@ public class PrisonerController {
     }
 
     @GetMapping("/prisoners/{id}/")
-    @Secured("ROLE_ADMIN")
     public ResponseEntity<Object> show(@PathVariable("id") Long id) {
         return new ResponseEntity<>(
                 new PrisonerDTO(prisonerRepository.findById(id).get()),
@@ -42,6 +42,7 @@ public class PrisonerController {
     }
 
     @PostMapping("/prisoners/create")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Object> create(@RequestBody PrisonerCreateDTO prisoner) {
         return new ResponseEntity<>(
                 new PrisonerDTO(prisonerService.prisonerCreate(prisoner)),
@@ -49,6 +50,7 @@ public class PrisonerController {
     }
 
     @DeleteMapping("/prisoners/{id}/")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
         Optional<Prisoner> prisoner = prisonerRepository.findById(id);
         prisoner.ifPresent(value -> prisonerRepository.delete(value));
@@ -56,6 +58,7 @@ public class PrisonerController {
     }
 
     @PutMapping("/prisoners/{id}/")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody Prisoner prisoner) {
         Optional<Prisoner> oldPrisoner = prisonerRepository.findById(id);
         if(oldPrisoner.isPresent()) {
