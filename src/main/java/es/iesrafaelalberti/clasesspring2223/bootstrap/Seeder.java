@@ -31,11 +31,13 @@ public class Seeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        User testUser = new User("javier", "pestillo");
+        User testUser = new User("javier", "pestillo", true);
+        User testUser2 = new User("farra", "pestillo", false);
         userRepository.save(testUser);
-        List<Cell> cells = cellFactory.getOldSchool(18);
+        userRepository.save(testUser2);
+        List<Cell> cells = cellFactory.getOldSchool(2090);
         cellRepository.saveAll(cells);
         prisonerRepository.save(new Prisoner("bob", 19, 23, cells.get(0)));
-        prisonerRepository.saveAll(prisonerFactory.getOldSchool(7, cells));
+        prisonerRepository.saveAll(prisonerFactory.getOldSchool(10567, cells));
     }
 }
