@@ -41,7 +41,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class SecurityConfig {
+public class SecurityConfigJWT {
 	@Autowired
 	@Qualifier("myUserDetailsService")
 	MyUserDetailsService myUserDetailsService;
@@ -52,7 +52,7 @@ public class SecurityConfig {
 	}
 
 	private final RsaKeyProperties jwtConfigProperties;
-	public SecurityConfig(RsaKeyProperties jwtConfigProperties) {
+	public SecurityConfigJWT(RsaKeyProperties jwtConfigProperties) {
 		this.jwtConfigProperties = jwtConfigProperties;
 	}
 

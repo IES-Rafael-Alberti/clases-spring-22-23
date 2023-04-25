@@ -32,7 +32,7 @@ public class Seeder implements CommandLineRunner {
     @Override
     public void run(String... args) {
         User testUser = new User("javier", "pestillo", true);
-        User testUser2 = new User("farra", "pestillo", false);
+        User testUser2 = new User("farra", "farra", false);
         userRepository.save(testUser);
         userRepository.save(testUser2);
         List<Cell> cells = cellFactory.getOldSchool(2090);
