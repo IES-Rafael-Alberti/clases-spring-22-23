@@ -35,9 +35,9 @@ public class Seeder implements CommandLineRunner {
         User testUser2 = new User("farra", "farra", false);
         userRepository.save(testUser);
         userRepository.save(testUser2);
-        List<Cell> cells = cellFactory.getOldSchool(2090);
+        List<Cell> cells = cellFactory.getOldSchool(50);
         cellRepository.saveAll(cells);
         prisonerRepository.save(new Prisoner("bob", 19, 23, cells.get(0)));
-        prisonerRepository.saveAll(prisonerFactory.getOldSchool(10567, cells));
+        prisonerRepository.saveAll(prisonerFactory.getOldSchool(50, cells));
     }
 }
