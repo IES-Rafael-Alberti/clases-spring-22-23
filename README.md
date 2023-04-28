@@ -35,3 +35,11 @@ Para ajustarnos a la terminología conocida, llamaremos a esta parte de nuestra 
 
 Vuestro nuevo Dios:  
 [Dan Vega, ruega por nosotros](https://www.danvega.dev/blog/2022/09/06/spring-security-jwt/)
+
+Ejemplo URL Mongo local (application.properties):
+spring.data.mongodb.uri=mongodb://javier:pestillo@mongo:27017/prison-images?authSource=prison-images
+
+Ejemplo application.properties Postgres local:
+spring.datasource.url=jdbc:postgresql://postgres:5432/prison
+spring.datasource.username=javier
+spring.datasource.password=pestillo
