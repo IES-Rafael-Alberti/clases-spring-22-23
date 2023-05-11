@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -61,6 +62,8 @@ public class SecurityConfigJWT {
 		return http
 				.csrf(AbstractHttpConfigurer::disable)
 				.userDetailsService(myUserDetailsService)
+				// authorization of preflight requests (OPTIONS)
+				.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll())
 				// you can authorize/authenticate requests based on roles by matcher (regular expression)
 				//.authorizeHttpRequests(auth -> auth.requestMatchers("/prisoners/**").hasAuthority("SCOPE_ADMIN"))
 				.authorizeHttpRequests(auth -> auth.requestMatchers("/v3/**").permitAll())
@@ -84,6 +87,7 @@ public class SecurityConfigJWT {
 	public SecurityFilterChain tokenSecurityFilterChain(HttpSecurity http) throws Exception {
 		return http
 				.securityMatcher("/token**")
+				.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.OPTIONS).permitAll())
 				.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.csrf(AbstractHttpConfigurer::disable)
@@ -108,7 +112,7 @@ public class SecurityConfigJWT {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedOrigins(List.of("*"));
 		configuration.setAllowedHeaders(List.of("*"));
-		configuration.setAllowedMethods(List.of("GET"));
+		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;

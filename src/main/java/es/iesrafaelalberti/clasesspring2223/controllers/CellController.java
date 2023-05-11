@@ -7,10 +7,7 @@ import es.iesrafaelalberti.clasesspring2223.repositories.CellRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -33,7 +30,9 @@ public class CellController {
 
     @GetMapping("/cells/{id}/")
     public ResponseEntity<Object> show(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(new CellDTO(cellRepository.findById(id).get()), HttpStatus.OK);
+        Optional<Cell> cell = cellRepository.findById(id);
+        return new ResponseEntity<>(cell.isPresent()? new CellDTO(cell.get()) : false,
+                                    cell.isPresent()? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/cells/create")
@@ -48,7 +47,7 @@ public class CellController {
     public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
         Optional<Cell> cell = cellRepository.findById(id);
         cell.ifPresent(value -> cellRepository.delete(value));
-        return new ResponseEntity<>(cell.isPresent(), HttpStatus.OK);
+        return new ResponseEntity<>(cell.isPresent(), cell.isPresent()? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/cells/{id}/")
