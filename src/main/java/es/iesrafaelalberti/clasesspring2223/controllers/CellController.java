@@ -4,6 +4,7 @@ import es.iesrafaelalberti.clasesspring2223.dto.CellCreateDTO;
 import es.iesrafaelalberti.clasesspring2223.dto.CellDTO;
 import es.iesrafaelalberti.clasesspring2223.models.Cell;
 import es.iesrafaelalberti.clasesspring2223.repositories.CellRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,9 +31,9 @@ public class CellController {
 
     @GetMapping("/cells/{id}/")
     public ResponseEntity<Object> show(@PathVariable("id") Long id) {
-        Optional<Cell> cell = cellRepository.findById(id);
-        return new ResponseEntity<>(cell.isPresent()? new CellDTO(cell.get()) : false,
-                                    cell.isPresent()? HttpStatus.OK : HttpStatus.NOT_FOUND);
+        Cell cell = cellRepository.findById(id)
+                                  .orElseThrow(() -> new EntityNotFoundException(id.toString()));
+        return new ResponseEntity<>(new CellDTO(cell), HttpStatus.OK);
     }
 
     @PostMapping("/cells/create")
